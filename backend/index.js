@@ -1,14 +1,17 @@
 import express from "express";
-import {PORT , mongoDBURL} from "./config.js";
 import mongoose from 'mongoose';
 import cors from 'cors';
+import {PORT , mongoDBURL} from "./config.js";
+import diaryRoutes from './routes/diaryRoutes.js';
 
 const app = express();
+app.use(express.json());
 
 app.get('/', (request,response) => {
-    console.log(request)
     return response.status(234)
 })
+
+app.use('/diary', diaryRoutes);
 
 app.use(
     cors({
@@ -20,7 +23,6 @@ app.use(
 
 mongoose.connect(mongoDBURL)
     .then(() => {
-        console.log('app to db')
         app.listen(PORT, () => {
             console.log(`App is listening to : ${PORT}`)
         });
