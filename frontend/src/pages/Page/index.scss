@@ -1,0 +1,225 @@
+.pageContainer {
+    height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    background-color: #ffeaa7;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+
+    .header {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 1em;
+        background-color: black;
+        .headericon{
+            color: #444;
+            cursor: pointer;
+            padding: 0.7em;
+
+            &:last-child{
+              color: gray;
+            }
+            
+            &:hover{
+                color: #06c;
+            }
+        }
+    }
+    .heading{
+        display: flex;
+        flex-direction: column;
+        margin: 1.5em 2em;
+        margin-bottom: 1em;
+        input{
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 2em;
+            font-family: "AlexBrush";
+        }
+        .track{
+            display: flex;
+            align-items: center;
+            width: 100%;
+            justify-content: space-between;
+            span{
+                margin-top: 1em;
+                font-size: 1.1em;
+                font-family: "RougeScript";
+                cursor: pointer;
+            }
+            .mood{
+              margin-top: 1em;
+              color: #444;
+              cursor: pointer;
+
+              &:hover{
+                color: #06c;
+              }
+            }
+        }
+    }
+    .content{
+        padding: 1em;
+        display: flex;
+    }
+    .bgchange{
+        position: absolute;
+        bottom: 0.9em;
+        right: 2em;
+        color: #444;
+        cursor: pointer;
+
+        &:hover{
+            color: #06c;
+        }
+    }
+}
+
+.pageContainer{
+    .content .quill{
+        width: 50%;
+        .ql-container {
+            border: none;
+            
+            .ql-editor {
+                border: none ;
+                outline: none ;
+                
+                .ql-font-AlexBrush{
+                    font-family: "AlexBrush";
+                    font-size: 18px;
+                }
+
+                .ql-font-RougeScript{
+                    font-family: "RougeScript";
+                    font-size: 18px;
+                }
+
+                .ql-font-Swanky{
+                    font-family: "Swanky";
+                    font-size: 18px;
+                }
+                .ql-font-arial,
+                .ql-font span[data-value="arial"]::before {
+                  font-family: Arial, sans-serif;
+                }
+                .ql-font-comic-sans,
+                .ql-font span[data-value="comic-sans"]::before {
+                  font-family: "Comic Sans MS", cursive, sans-serif;
+                }
+                .ql-font-courier-new,
+                .ql-font span[data-value="courier-new"]::before {
+                  font-family: "Courier New";
+                }
+                .ql-font-georgia,
+                .ql-font span[data-value="georgia"]::before {
+                  font-family: Georgia, serif;
+                }
+                .ql-font-helvetica,
+                .ql-font span[data-value="helvetica"]::before {
+                  font-family: Helvetica, sans-serif;
+                }
+                .ql-font-lucida,
+                .ql-font span[data-value="lucida"]::before {
+                    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+                }
+            }
+        }
+    }
+    #toolbar.ql-toolbar.ql-snow{
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.6em;
+        background-color: black;
+        border: 2px solid black;
+        color: wheat;
+
+        .ql-formats{
+            margin-right: 0;
+            
+            .ql-font.ql-picker{
+                width: 120px;
+                .ql-picker-options{
+                    transform: translateY(-242px);
+                }
+            }
+            .ql-size.ql-picker{
+                .ql-picker-options{
+                    transform: translateY(-130px);
+                }
+            }
+            // .ql-picker-label{
+            //     // color: burlywood;
+            // }
+        }
+
+        .ql-picker-options{
+            transform: translateY(-150px);
+        }
+
+        .ql-font-arial,
+        .ql-font span[data-value="arial"]::before {
+          font-family: Arial, sans-serif;
+        }
+        .ql-font-comic-sans,
+        .ql-font span[data-value="comic-sans"]::before {
+          font-family: "Comic Sans MS", cursive, sans-serif;
+        }
+        .ql-font-courier-new,
+        .ql-font span[data-value="courier-new"]::before {
+          font-family: "Courier New";
+        }
+        .ql-font-georgia,
+        .ql-font span[data-value="georgia"]::before {
+          font-family: Georgia, serif;
+        }
+        .ql-font-helvetica,
+        .ql-font span[data-value="helvetica"]::before {
+          font-family: Helvetica, sans-serif;
+        }
+        .ql-font-lucida,
+        .ql-font span[data-value="lucida"]::before {
+            font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+        }
+        .ql-font-AlexBrush,
+        .ql-font span[data-value="AlexBrush"]::before {
+          font-family: "AlexBrush";
+        }
+        .ql-font-RougeScript,
+        .ql-font span[data-value="RougeScript"]::before {
+          font-family: "RougeScript";
+          font-size: 16px;
+        }
+        .ql-font-Swanky,
+        .ql-font span[data-value="Swanky"]::before {
+          font-family: "Swanky";
+        }
+
+        .ql-size-extra-small,
+        .ql-size span[data-value="extra-small"]::before {
+          font-size: 13px !important;
+        }
+        .ql-size-small,
+        .ql-size span[data-value="small"]::before {
+          font-size: 14px !important;
+        }
+        .ql-size-medium,
+        .ql-size span[data-value="medium"]::before {
+          font-size: 16px !important;
+        }
+        .ql-size-large,
+        .ql-size span[data-value="large"]::before {
+          font-size: 18px !important;
+        }
+    }
+}

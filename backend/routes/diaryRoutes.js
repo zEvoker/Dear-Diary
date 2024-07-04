@@ -6,7 +6,10 @@ const router = express.Router();
 router.post('/', async (request,response) => {
     try{
         const newPage = {
+            title : request.body.title,
             content : request.body.content,
+            date: request.body.date,
+            mood: request.body.mood,
         };
         const page = await Page.create(newPage);
         return response.status(200).send(page);

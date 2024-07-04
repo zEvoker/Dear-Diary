@@ -2,8 +2,21 @@ import mongoose from "mongoose";
 
 const pageSchema = mongoose.Schema (
     {
+        title: {
+            type: String,
+            required: false,
+        },
         content: {
-            type: [String],
+            type: String,
+            required: false,
+        },
+        date: {
+            type: Date,
+            required: true,
+            default: Date.now,
+        },
+        mood: {
+            type: Number,
             required: false,
         },
     },

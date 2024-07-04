@@ -1,0 +1,105 @@
+.chat{
+    width: 50%;
+    height: 60vh;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    position: relative;
+    border: 2px solid black;
+    border-radius: 8px;
+
+    .chat-screen{
+        border: 1px solid black;
+        width: 95%;
+        display: flex;
+        flex-direction: column;
+        height: 80%;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        border-radius: 8px;
+
+        &::-webkit-scrollbar{
+            display: none;
+        }
+        .me{
+            display: flex;
+            width: 100%;
+            flex-direction: row-reverse;
+            span{
+                padding: 5px 10px;
+                align-items: flex-end;
+                width: max-content;
+                max-width: 40%;
+                border-radius: 6px;
+            }
+        }
+        .bot{
+            display: flex;
+            align-items: center;
+            padding: 5px 10px;
+            height: max-content;
+            width: max-content;
+            max-width: 60%;
+            border-radius: 6px;
+
+            .chatloader{
+                display: inline-block;
+                position: relative;
+                width: 60px;
+                height: 28px;
+
+                div{
+                    display: inline-block;
+                    position: absolute;
+                    left: 8px;
+                    width: 10px;
+                    border-radius: 4px;
+                    background-color: currentColor;
+                    animation: load-fb 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+
+                    &:nth-child(1) {
+                        left: 5px;
+                        animation-delay: -0.24s;
+                    }
+                    &:nth-child(2) {
+                        left: 25px;
+                        animation-delay: -0.12s;
+                    }
+                    &:nth-child(3) {
+                        left: 45px;
+                        animation-delay: 0;
+                    }
+                }
+
+                @keyframes load-fb {
+                    0%{
+                        top: 0;
+                        height: 32px;
+                    }
+                    50%,100%{
+                        top: 8px;
+                        height: 16px;
+                    }
+                }
+            }
+        }
+        margin-bottom: 2.5em;
+    }
+
+    .chat-input{
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        input{
+            width: 80%;
+            padding: 0.5em;
+            border: none;
+            outline: none;
+        }
+    }
+}
