@@ -1,24 +1,28 @@
 .chat{
-    width: 50%;
+    width: 45%;
+    margin-left: 2%;
     height: 60vh;
     display: flex;
     align-items: start;
     justify-content: center;
     position: relative;
     border: 2px solid black;
-    border-radius: 8px;
+    border-radius: 12px;
+    box-shadow: 0 2px 3px black;
 
     .chat-screen{
-        border: 1px solid black;
-        width: 95%;
+        border: 2px solid black;
+        width: 92%;
         display: flex;
         flex-direction: column;
         height: 80%;
+        margin: 3%;
         overflow-x: hidden;
         overflow-y: scroll;
         -ms-overflow-style: none;
         scrollbar-width: none;
-        border-radius: 8px;
+        border-radius: 10px;
+        padding: 1em;
 
         &::-webkit-scrollbar{
             display: none;
@@ -27,23 +31,23 @@
             display: flex;
             width: 100%;
             flex-direction: row-reverse;
+            margin-bottom: 1em;
             span{
-                padding: 5px 10px;
                 align-items: flex-end;
                 width: max-content;
-                max-width: 40%;
-                border-radius: 6px;
+                max-width: 90%;
+                border-radius: 12px 0 12px 12px;
+                border: 1px solid black;
+                padding: 5px 10px;
             }
         }
         .bot{
             display: flex;
             align-items: center;
-            padding: 5px 10px;
             height: max-content;
             width: max-content;
-            max-width: 60%;
-            border-radius: 6px;
-
+            max-width: 90%;
+            margin-bottom: 1em;
             .chatloader{
                 display: inline-block;
                 position: relative;
@@ -84,22 +88,59 @@
                     }
                 }
             }
+             span{
+                border-radius: 0 12px 12px 12px;
+                border: 1px solid black;
+                padding: 5px 10px;
+             }
         }
         margin-bottom: 2.5em;
     }
 
     .chat-input{
-        width: 100%;
+        width: 80%;
         position: absolute;
-        bottom: 0;
+        bottom: 3%;
         display: flex;
         align-items: center;
         justify-content: center;
+        border: 2px solid black;
+        border-radius: 5em;
+        padding: 0.3em 0.5em;
         input{
-            width: 80%;
-            padding: 0.5em;
+            width: 100%;
+            padding: 0 1em;
             border: none;
             outline: none;
+            background: transparent;
+        }
+        .msgsender{
+            border: 2px solid black;
+            border-radius: 50%;
+            padding: 0.3em;
+            cursor: pointer;
+
+            &:hover{
+                transform: scale(1.05);
+                background-color: black;
+                color: #ffeaa7;
+            }
+            &:active{
+                transform: scale(0.95);
+            }
+
+            &.spinn {
+                animation: spin 2s linear infinite;
+            }
+
+            @keyframes spin {
+                from{
+                    transform: none;
+                }
+                to{
+                    transform: rotate(360deg);
+                }
+            }
         }
     }
 }

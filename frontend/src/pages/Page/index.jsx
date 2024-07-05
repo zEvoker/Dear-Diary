@@ -5,7 +5,7 @@ import 'react-quill/dist/quill.snow.css';
 import { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faCheck, faClose, faFaceAngry, faFaceFrown, faFaceMeh, faFaceSmileBeam, faPalette, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faCheck, faClose, faFaceAngry, faFaceFrown, faFaceMeh, faFaceSmileBeam, faPalette, faPenToSquare, faUserPlus, faUserXmark } from '@fortawesome/free-solid-svg-icons';
 import { format } from 'date-fns';
 import Chat from '../../components/Chat';
 
@@ -13,11 +13,13 @@ const Page = () => {
     const [page, setPage] = useState({});
     const [text, setText] = useState("");
     const [head, setHead] = useState("");
-    const [day, setDay] = useState('07-04-2024');
+    const [day, setDay] = useState('2024-07-04');
     const [mood, setMood] = useState(0);
     const [loading, setLoading] = useState(false);
     const [color, setColor] = useState('#ffeaa7');
     const [edit, setEdit] = useState(false);
+    const [showChat, setShowChat] = useState(false);
+    const [firstMsg, setFirstMsg] = useState("");
     const dateInputRef = useRef(null);
     const {id} =useParams();
     const moods = [faFaceMeh, faFaceSmileBeam, faFaceFrown, faFaceAngry]
@@ -39,18 +41,35 @@ const Page = () => {
         })
     }, [id]);
 
-    const handleSave = () => {
+    const handleSave = async () => {
         setLoading(true);
-        const updatedPage = {...page, title: head, content: text, date: day, mood:mood};
-        axios.put(`http://localhost:5555/diary/${id}`, updatedPage)
-        .then((response) => {
+        try {
+            const feel = await handleMood();
+            const updatedPage = {...page,title:head,content:text,date:day,mood:feel};
+            const response = await axios.put(`http://localhost:5555/diary/${id}`, updatedPage);
             setLoading(false);
             setEdit(false);
-        })
-        .catch((error) => {
+        } catch (error) {
             setLoading(false);
             console.log(error);
-        })
+        }
+    }
+
+    const handleShowChat = async () => {
+        setLoading(true);
+        try{
+            const response = await axios.post('http://localhost:5555/chat/', {
+                message: `Talk to me like a friend in short messages. I'm feeling sad, so please be understanding and supportive.; ${text}`,
+                history: []
+            })
+            const botres = response.data;
+            setFirstMsg(botres);
+            setLoading(false);
+        } catch(error) {
+            console.log(error);
+            setLoading(true);
+        }
+        setShowChat(true);
     }
 
     const handleMood = async () => {
@@ -61,12 +80,15 @@ const Page = () => {
                 history: []
             })
             const feel = response.data;
+            if(feel === "sad" || feel === "angry") handleShowChat();
             const moodMap = { happy: 1, sad: 2, angry: 3, neutral: 0 };
             setMood(moodMap[feel] ?? 0);
             setLoading(false);
+            return moodMap[feel] ?? 0;
         } catch(e) {
             console.log(e);
             setLoading(false);
+            return mood;
         }
     }
 
@@ -95,17 +117,17 @@ const Page = () => {
     const formats = [ "header", "font", "size", "bold", "italic", "underline", "align", "strike", "script", "blockquote", "background", "list", "bullet", "indent", "link", "image", "color", "code-block"];
 
     return (
-        <div className='pageContainer' style={{backgroundColor: color}}>
+        <div className='pageContainer' style={loading ? {opacity: "0.7"} : {backgroundColor: color}}>
             <div className="header">
-                <FontAwesomeIcon icon={faArrowLeft} className='headericon'/>
                 {edit?
                 <>
-                    <FontAwesomeIcon onClick={() => {setEdit(false); setText(page.content);}} icon={faClose} className='headericon'/>
                     <FontAwesomeIcon onClick={handleSave} icon={faCheck} className='headericon'/>
+                    <FontAwesomeIcon onClick={() => {setEdit(false); setText(page.content);}} icon={faClose} className='headericon'/>
                 </>
                 :
-                    <FontAwesomeIcon onClick={()=>setEdit(true)} icon={faPenToSquare} className='headericon'/>
+                <FontAwesomeIcon onClick={()=>setEdit(true)} icon={faPenToSquare} className='headericon'/>
                 }
+                <FontAwesomeIcon icon={showChat ? faUserXmark : faUserPlus} className='headericon' onClick={() => setShowChat( prev => !prev)}/>
             </div>
             <div className="heading">
                 <input type="text" placeholder='Title' value={head} onChange={(e) => setHead(e.target.value)} disabled={!edit}/>
@@ -115,9 +137,9 @@ const Page = () => {
                     <FontAwesomeIcon icon={moods[mood]} className='mood' onClick={handleMood}/>
                 </div>
             </div>
-            <div className="content">
+            <div className={`content ${showChat && "chat-show"}`}>
                 <ReactQuill theme="snow" modules={modules} formats={formats} value={text} onChange={setText} readOnly={!edit} placeholder='Start writing...'/>
-                <Chat />
+                {showChat && <Chat firstMsg={firstMsg} />}
             </div>
             <div id='toolbar'>
                 <span className='ql-formats'>

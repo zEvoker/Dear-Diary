@@ -1,7 +1,7 @@
 import './index.scss'
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import Card from '../../components/Card';
 
 const Home = () => {
     const [pages, setPages] = useState([]);
@@ -25,12 +25,7 @@ const Home = () => {
             <h1>Home</h1>
             <div className="pages">
                 {pages.map((page,idx) => (
-                    <div className="card">
-                        {page.title}
-                        <Link to={`diary/${page._id}`}>
-                            go
-                        </Link>
-                    </div>
+                    <Card key={idx} title={page.title} id={page._id} mood={page.mood}/>
                 ))}
             </div>
         </>

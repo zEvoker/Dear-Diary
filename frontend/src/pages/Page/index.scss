@@ -14,14 +14,14 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 0 1em;
+        padding: 0 1.2em;
         background-color: black;
         .headericon{
             color: #444;
             cursor: pointer;
             padding: 0.7em;
 
-            &:last-child{
+            &:first-child{
               color: gray;
             }
             
@@ -82,16 +82,17 @@
 }
 
 .pageContainer{
-    .content .quill{
-        width: 50%;
+    .content {
+      .quill{
+         width: 100%;
         .ql-container {
-            border: none;
+          border: none;
+          
+          .ql-editor {
+            border: none ;
+            outline: none ;
             
-            .ql-editor {
-                border: none ;
-                outline: none ;
-                
-                .ql-font-AlexBrush{
+            .ql-font-AlexBrush{
                     font-family: "AlexBrush";
                     font-size: 18px;
                 }
@@ -127,11 +128,18 @@
                 }
                 .ql-font-lucida,
                 .ql-font span[data-value="lucida"]::before {
-                    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+                  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
                 }
+              }
             }
+          } 
+
+          &.chat-show{
+            .quill{
+              width: 50%;
+            }
+          }
         }
-    }
     #toolbar.ql-toolbar.ql-snow{
         position: fixed;
         bottom: 0;
