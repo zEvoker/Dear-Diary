@@ -24,7 +24,11 @@
             &:first-child{
               color: gray;
             }
-            
+            &:last-child {
+              &:hover{
+                color: red;
+              }
+            }
             &:hover{
                 color: #06c;
             }

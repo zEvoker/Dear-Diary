@@ -20,7 +20,15 @@ router.post('/', async (request,response) => {
 });
 router.get('/', async (request,response) => {
     try{
-        const pages = await Page.find({});
+        const {title,date} = request.query;
+        let query = {};
+        if(title) {
+            query.title = { $regex: title, $options: 'i' };
+        }
+        if(date) {
+            query.date = date;
+        }
+        const pages = await Page.find(query);
         return response.status(200).json({
             count: pages.length,
             data: pages,
@@ -35,6 +43,7 @@ router.get('/:id', async (request,response) => {
     try{
         const {id} = request.params;
         const page = await Page.findById(id);
+        if (!page) return response.status(404).json({ message: "Page not found" });
         return response.status(200).json(page);
     }catch(err) {
         console.error(err);
@@ -45,7 +54,7 @@ router.put('/:id', async (request,response) => {
     try{
         const {id} = request.params;
         const res = await Page.findByIdAndUpdate(id,request.body);
-        if(!res) return response.status(400).json({message: "Page not found"});
+        if(!res) return response.status(404).json({message: "Page not found"});
         return response.status(200).json({message: "Page updated successfully"});
     }catch(err) {
         console.error(err);
@@ -56,7 +65,7 @@ router.delete('/:id', async (request,response) => {
     try{
         const {id} = request.params;
         const res = await Page.findByIdAndDelete(id);
-        if(!res) return response.status(400).json({message: "Page not found"});
+        if(!res) return response.status(404).json({message: "Page not found"});
         return response.status(200).json({message: "Page deleted successfully"});
     } catch(err) {
         console.error(err);

@@ -1,0 +1,168 @@
+.home{
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ffeaa7;
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+
+    .logo {
+        width: 100vw;
+        background-color: #060c21;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 2em;
+
+        .logoicon {
+            padding: 0.7em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5em;
+            color: rgb(154, 154, 154);
+
+            span{
+                margin-top: 0.1em;
+                font-family: 'AlexBrush';
+                color: lightgray;
+                font-size: 1.5em;
+                font-weight: 700;
+            }
+        }
+
+        .icons {
+            color: lightgray;
+            height: 0.9em;
+            padding: 0.4em 0.5em;
+            border: 1px solid lightgray;
+            border-radius: 50%;
+            cursor: pointer;
+
+            &:hover {
+                color: #060c21;
+                background-color: lightgray;
+            }
+        }
+    }
+
+    .pages-1 {
+        display: flex;
+        align-items: center;
+        padding: 3em;
+        width: 100%;
+        overflow: scroll;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        
+        &::-webkit-scrollbar{
+            display: none;
+        }
+
+        .cards{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: max-content;
+            gap: 5em;
+            z-index: 0;
+            border-radius: 10px;
+        }
+    }
+
+    .section {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        margin-top: 0.5em;
+
+        .searchsection{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 3em;
+
+            .searchdate{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 1em;
+                border: 2px solid #060c21;
+                padding: 0.5em 1em;
+                border-radius: 2em;
+                max-width: 33%;
+            }
+            .searchtitle{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 1em;
+                border: 2px solid #060c21;
+                padding: 0.5em;
+                border-radius: 2em;
+                max-width: 33%;
+            }
+            input{
+                border: none;
+                outline: none;
+                background: transparent;
+                height: 1em;
+                font-family: "RougeScript";
+                font-size: 1.2em;
+            }
+        }
+
+        .searchresults {
+            display: flex;
+            align-items: center;
+            padding: 3em;
+            width: 100%;
+            overflow: scroll;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            
+            &::-webkit-scrollbar{
+                display: none;
+            }
+    
+            .cards{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: max-content;
+                gap: 5em;
+                z-index: 0;
+                border-radius: 10px;
+            }
+        }
+    }
+
+    .write {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        padding: 0.5em;
+        margin: 1em 1.5em;
+        font-size: 1.5em;
+        border-radius: 50%;
+        box-shadow: 1px 2px 2px black;
+        border: 2px solid black;
+        cursor: pointer;
+        animation: pulse 2s alternate infinite;
+    }
+
+    @keyframes pulse {
+        0%{
+            transform: none;
+        }
+        50%{
+            transform: scale(1.03) rotate(-10deg);
+        }
+        100%{
+            transform: scale(1.1);
+        }
+    }
+}

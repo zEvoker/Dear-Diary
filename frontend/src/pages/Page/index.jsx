@@ -3,9 +3,9 @@ import axios from 'axios'
 import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useEffect, useRef, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faCheck, faClose, faFaceAngry, faFaceFrown, faFaceMeh, faFaceSmileBeam, faPalette, faPenToSquare, faUserPlus, faUserXmark } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faCheck, faClose, faFaceAngry, faFaceFrown, faFaceMeh, faFaceSmileBeam, faPalette, faPenToSquare, faTrashAlt, faUserPlus, faUserXmark } from '@fortawesome/free-solid-svg-icons';
 import { format } from 'date-fns';
 import Chat from '../../components/Chat';
 
@@ -23,6 +23,7 @@ const Page = () => {
     const dateInputRef = useRef(null);
     const {id} =useParams();
     const moods = [faFaceMeh, faFaceSmileBeam, faFaceFrown, faFaceAngry]
+    const navigate = useNavigate();
     
     useEffect(() => {
         setLoading(true);
@@ -40,6 +41,18 @@ const Page = () => {
             setLoading(false);
         })
     }, [id]);
+
+    const handleDel = async () => {
+        setLoading(true);
+        try {
+            await axios.delete(`http://localhost:5555/diary/${id}`);
+            setLoading(false);
+            navigate('/');
+        } catch (error) {
+            setLoading(false);
+            console.error(error);
+        }
+    };
 
     const handleSave = async () => {
         setLoading(true);
@@ -128,11 +141,12 @@ const Page = () => {
                 <FontAwesomeIcon onClick={()=>setEdit(true)} icon={faPenToSquare} className='headericon'/>
                 }
                 <FontAwesomeIcon icon={showChat ? faUserXmark : faUserPlus} className='headericon' onClick={() => setShowChat( prev => !prev)}/>
+                <FontAwesomeIcon icon={faTrashAlt} className='headericon' onClick={handleDel} />
             </div>
             <div className="heading">
                 <input type="text" placeholder='Title' value={head} onChange={(e) => setHead(e.target.value)} disabled={!edit}/>
                 <div className="track">
-                    <span onClick={() => dateInputRef.current.showPicker()}>{format(day, "MMMM do',' yyyy")}</span>
+                    <span onClick={() => {if(edit) dateInputRef.current.showPicker();}}>{format(day, "MMMM do',' yyyy")}</span>
                     <input type="date" ref={dateInputRef} value={day} onChange={e => setDay(e.target.value)} style={{ display: 'none' }} disabled={!edit} />
                     <FontAwesomeIcon icon={moods[mood]} className='mood' onClick={handleMood}/>
                 </div>

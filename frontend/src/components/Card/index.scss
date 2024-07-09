@@ -1,15 +1,112 @@
 .card-container{
     width: 10em;
-    background-color: black;
-    height: 10em;
+    height: 12em;
+    padding: 0.7em;
+    background: linear-gradient(180deg, #060c21, black);
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+    flex-wrap: wrap;
+    border-radius: 1.5em;
+    text-decoration: none;
+    color: whitesmoke;
+    transition: 0.5s;
+    --mood-happy-color: lightsalmon;
+    --mood-sad-color: lightblue;
+    --mood-angry-color: lightcoral;
+
     .card-top{
         width: 100%;
-        height: 50%;
+        height: 30%;
+        z-index: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'RougeScript';
+        font-size: 1.5em;
     }
     .card-bot{
         width: 100%;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'AlexBrush';
+        .card-left{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50%;
+        }
+        .card-right{
+            width: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+    .glass{
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 50%;
+        height: 100%;
+        display: block;
+        background: rgba(255,255,255,.1);
+        pointer-events: none;
+        z-index: 1;
+        border-radius: 0 1.5em 1.5em 0;
+    }
+    &::before{
+        content: '';
+        position: absolute;
+        top: -5px;left: -5px;bottom: -5px;right: -5px;
+        background: whitesmoke;
+        border-radius: 1.5em;
+        z-index: -1;
+    }
+    &::after{
+        content: '';
+        position: absolute;
+        top: -3px;left: -3px;bottom: -3px;right: -3px;
+        background-color: whitesmoke;
+        z-index: -1;
+        border-radius: 1.5em;
+        filter: blur(1.4em);
+    }
+
+    &.mood-happy {
+        color: var(--mood-happy-color);
+        --mood-color: var(--mood-happy-color);
+        &::before, &::after {
+            background: linear-gradient(235deg, #ecd44c, #f3b254);
+        }
+    }
+
+    &.mood-sad {
+        color: var(--mood-sad-color);
+        --mood-color: var(--mood-sad-color);
+        &::before, &::after {
+            background: linear-gradient(135deg, #528abb, #3179b3);
+        }
+    }
+
+    &.mood-angry {
+        color: var(--mood-angry-color);
+        --mood-color: var(--mood-angry-color);
+        &::before, &::after {
+            background: linear-gradient(135deg, #ef4339, #c01305);
+        }
+    }
+
+    &:hover {
+        animation: spread 1s alternate infinite;
+        text-shadow: 0 0 0.1em hsl(0, 0%, 100%), 0 0 0.1em var(--mood-color);
+    }
+}
+@keyframes spread {
+    to {
+        box-shadow: inset 0 0 0.4em 0 var(--mood-color), 0 0 2em 0 var(--mood-color);
     }
 }
