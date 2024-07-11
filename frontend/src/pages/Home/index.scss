@@ -57,7 +57,9 @@
         overflow: scroll;
         -ms-overflow-style: none;
         scrollbar-width: none;
-        
+        scroll-snap-type: x mandatory;
+        scroll-padding: 0 2em;
+        overscroll-behavior-x: contain;
         &::-webkit-scrollbar{
             display: none;
         }
@@ -70,6 +72,9 @@
             gap: 5em;
             z-index: 0;
             border-radius: 10px;
+        }
+        .cards > * {
+            scroll-snap-align: start;
         }
     }
 
@@ -88,21 +93,30 @@
             .searchdate{
                 display: flex;
                 align-items: center;
-                justify-content: center;
-                gap: 1em;
+                justify-content: end;
                 border: 2px solid #060c21;
-                padding: 0.5em 1em;
                 border-radius: 2em;
+                padding-left: 0.7em;
+                min-width: 11%;
                 max-width: 33%;
             }
             .searchtitle{
                 display: flex;
                 align-items: center;
-                justify-content: center;
-                gap: 1em;
+                justify-content: end;
                 border: 2px solid #060c21;
-                padding: 0.5em;
                 border-radius: 2em;
+                padding-left: 0.7em;
+                max-width: 33%;
+            }
+            .searchquery{
+                display: flex;
+                align-items: center;
+                justify-content: end;
+                border: 2px solid #060c21;
+                border-radius: 2em;
+                padding-left: 0.5em;
+                min-width: 15%;
                 max-width: 33%;
             }
             input{
@@ -112,6 +126,9 @@
                 height: 1em;
                 font-family: "RougeScript";
                 font-size: 1.2em;
+                width: 90%;
+                padding: 1em 0.5em;
+                margin-left: 0.2em;
             }
         }
 
@@ -123,7 +140,9 @@
             overflow: scroll;
             -ms-overflow-style: none;
             scrollbar-width: none;
-            
+            scroll-snap-type: x mandatory;
+            scroll-padding: 0 2em;
+            overscroll-behavior-x: contain;
             &::-webkit-scrollbar{
                 display: none;
             }
@@ -136,6 +155,9 @@
                 gap: 5em;
                 z-index: 0;
                 border-radius: 10px;
+            }
+            .cards > * {
+                scroll-snap-align: start;
             }
         }
     }

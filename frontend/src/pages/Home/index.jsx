@@ -43,9 +43,7 @@ const Home = () => {
             const today = startOfToday();
             const newPage = {title:"", content:"", data:today, mood:0};
             const response = await axios.post(`http://localhost:5555/diary`, newPage);
-            console.log(response)
             const id = response.data._id;
-            console.log(id)
             nav(`diary/${id}`);
             setLoading(false);
         } catch(error) {
@@ -54,8 +52,35 @@ const Home = () => {
         }
     }
 
+    const handleQuery = async () => {
+        if(query === "") return;
+        setLoading(true);
+        try{
+            const response = await axios.post('http://localhost:5555/chat/', {
+                message: `The database has 4 fields title, content, date and mood (0 for neutral, 1 for happy, 2 for sad, 3 for angry). Return a mongo db query string of the form "title=value;content=value;dateStart=value;dateEnd=value;mood=value; corresponding to the text given after the ';' at the end "; ${query}`,
+                history: []
+            })
+            //(regex syntax where * means 0 or more of preceding element and ^ means start of string) 
+            console.log(response.data)
+            const q = response.data;
+            const resp = await axios.get('http://localhost:5555/diary/search', {
+                params: {
+                    queryString: q,
+                }
+            });
+            setResults(resp.data.data);
+            setLoading(false);
+        } catch (err) {
+            console.error(err);
+            setLoading(false);
+        }
+    }
+
     const handleSearch = async (stxt, sdate) => {
-        if(!stxt && !sdate) return;
+        if(!stxt && !sdate) {
+            setResults([]);
+            return;
+        }
         setLoading(true);
         try {
             const response = await axios.get('http://localhost:5555/diary', {
@@ -95,13 +120,13 @@ const Home = () => {
                         <FontAwesomeIcon icon={faSearch}/>
                         <input type="date" value={searchdate} onChange={e => {const temp=e.target.value; setSearchdate(temp); debouncedHandleSearch(searchtxt,temp);}} />
                     </div>
-                    <div className="searchtitle">
+                    <div className="searchquery">
                         <FontAwesomeIcon icon={faSearch}/>
-                        <input type="text" placeholder='Title' value={searchtxt} onChange={e => {const temp=e.target.value; setSearchtxt(temp); debouncedHandleSearch(temp,searchdate);}}/>
+                        <input type="text" placeholder='Show me entries from April' value={query} onChange={e => setQuery(e.target.value)} onKeyDown={e => {if (e.key === 'Enter') handleQuery();}}/>
                     </div>
                     <div className="searchtitle">
                         <FontAwesomeIcon icon={faSearch}/>
-                        <input type="text" placeholder='Query' value={query} onChange={e => setQuery(e.target.value)}/>
+                        <input type="text" placeholder='Title' value={searchtxt} onChange={e => {const temp=e.target.value; setSearchtxt(temp); debouncedHandleSearch(temp,searchdate);}}/>
                     </div>
                 </div>
                 <div className="searchresults">

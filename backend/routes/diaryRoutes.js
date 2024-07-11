@@ -3,6 +3,46 @@ import {Page} from '../models/page.js';
 
 const router = express.Router();
 
+const parseQueryString = (queryString) => {
+    const params = queryString.split(';').reduce((acc, param) => {
+        const [key, value] = param.split('=');
+        if (key && value) {
+            acc[key.trim()] = value.trim();
+        }
+        return acc;
+    }, {});
+    return params;
+};
+
+const buildQueryObject = (params) => {
+    const queryObject = {};
+    if (params.title) {
+        const regexValue = params.title.replace('*', '.*');
+        queryObject.title = { $regex: regexValue, $options: 'i' };
+    }
+    if (params.content) {
+        queryObject.content = { $regex: params.content, $options: 'i' };
+    }
+    if (params.mood) {
+        queryObject.mood = params.mood;
+    }
+    if (params.dateStart && params.dateEnd) {
+        const startDate = new Date(params.dateStart);
+        const endDate = new Date(params.dateEnd);
+        queryObject.date = {
+            $gte: startDate,
+            $lte: endDate
+        };
+    } else if (params.dateStart) {
+        const startDate = new Date(params.dateStart);
+        queryObject.date = { $gte: startDate };
+    } else if (params.dateEnd) {
+        const endDate = new Date(params.dateEnd);
+        queryObject.date = { $lte: endDate };
+    }
+    return queryObject;
+};
+
 router.post('/', async (request,response) => {
     try{
         const newPage = {
@@ -33,6 +73,19 @@ router.get('/', async (request,response) => {
             count: pages.length,
             data: pages,
         });
+    }catch(err) {
+        console.error(err);
+        response.status(500).send({message:err.message});
+    }
+});
+
+router.get('/search', async (request,response) => {
+    try{
+        const queryString = request.query.queryString;
+        const params = parseQueryString(queryString);
+        const queryObject = buildQueryObject(params);
+        const pages = await Page.find(queryObject);
+        return response.status(200).json({ count: pages.length, data: pages,});
     }catch(err) {
         console.error(err);
         response.status(500).send({message:err.message});

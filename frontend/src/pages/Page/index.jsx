@@ -130,7 +130,7 @@ const Page = () => {
     const formats = [ "header", "font", "size", "bold", "italic", "underline", "align", "strike", "script", "blockquote", "background", "list", "bullet", "indent", "link", "image", "color", "code-block"];
 
     return (
-        <div className='pageContainer' style={loading ? {opacity: "0.7"} : {backgroundColor: color}}>
+        <div className='pageContainer' style={loading ? {display: "none"} : {backgroundColor: color}}>
             <div className="header">
                 {edit?
                 <>
@@ -213,7 +213,6 @@ const Page = () => {
             </div>
             <input type="color" value={color} id="favcolor" onChange={e => { setColor(e.target.value) }} style={{ display: 'none' }} />
             <label htmlFor="favcolor"><FontAwesomeIcon icon={faPalette} className='bgchange'/></label>
-            
         </div>
     )
 }
