@@ -10,11 +10,12 @@
     flex-wrap: wrap;
     border-radius: 1.5em;
     text-decoration: none;
-    color: whitesmoke;
+    color: orchid;
     transition: 0.5s;
     --mood-happy-color: lightsalmon;
     --mood-sad-color: lightblue;
     --mood-angry-color: lightcoral;
+    --mood-neutral-color: orchid;
 
     .card-top{
         width: 100%;
@@ -62,7 +63,7 @@
         content: '';
         position: absolute;
         top: -5px;left: -5px;bottom: -5px;right: -5px;
-        background: whitesmoke;
+        background: indigo;
         border-radius: 1.5em;
         z-index: -1;
     }
@@ -70,7 +71,7 @@
         content: '';
         position: absolute;
         top: -3px;left: -3px;bottom: -3px;right: -3px;
-        background-color: whitesmoke;
+        background-color: indigo;
         z-index: -1;
         border-radius: 1.5em;
         filter: blur(1.4em);
@@ -97,6 +98,14 @@
         --mood-color: var(--mood-angry-color);
         &::before, &::after {
             background: linear-gradient(135deg, #ef4339, #c01305);
+        }
+    }
+
+    &.mood-neutral {
+        color: var(--mood-neutral-color);
+        --mood-color: var(--mood-neutral-color);
+        &::before, &::after {
+            background: linear-gradient(135deg, rgb(97, 3, 164), indigo);
         }
     }
 

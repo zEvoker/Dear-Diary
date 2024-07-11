@@ -55,9 +55,10 @@ const Home = () => {
     const handleQuery = async () => {
         if(query === "") return;
         setLoading(true);
+        const today = startOfToday();
         try{
             const response = await axios.post('http://localhost:5555/chat/', {
-                message: `The database has 4 fields title, content, date and mood (0 for neutral, 1 for happy, 2 for sad, 3 for angry). Return a mongo db query string of the form "title=value;content=value;dateStart=value;dateEnd=value;mood=value; corresponding to the text given after the ';' at the end "; ${query}`,
+                message: `The database has 4 fields title, content, date (today is ${today}) and mood (0 for neutral, 1 for happy, 2 for sad, 3 for angry). Return a mongo db query string of the form "title=value;content=value;dateStart=value;dateEnd=value;mood=value;" corresponding to the text given after the ';' at the end ; ${query}`,
                 history: []
             })
             //(regex syntax where * means 0 or more of preceding element and ^ means start of string) 
