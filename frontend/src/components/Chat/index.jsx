@@ -32,9 +32,17 @@ const Chat = ({firstMsg}) => {
         setMessages([...temp,[m,"..."]]);
         setMsg("");
         try{
+            const history = [
+                ...(firstMsg ? [{ role: "user", parts: [{ text: firstMsg }] }] : []),
+                ...(firstMsg ? [{ role: "model", parts: [{ text: firstMsg }] }] : []),
+                ...temp.flatMap((message) => [
+                    { role: "user", parts: [{ text: message[0] }] },
+                    { role: "model", parts: [{ text: message[1] }] }
+                ])
+            ];
             const response = await axios.post('http://localhost:5555/chat/', {
-                message: `Talk to me like a friend in short messages. I'm feeling sad, so please be understanding and supportive.; ${msg}`,
-                history: []
+                message: `Talk to me like a friend in a short message. I'm feeling sad, so please be understanding and supportive.; ${msg}`,
+                history: history
             })
             setMessages([...temp,[m,response.data]]);
             setWaiting(false);

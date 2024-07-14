@@ -26,7 +26,7 @@ const Home = () => {
 
     useEffect(() => {
         setLoading(true);
-        axios.get('http://localhost:5555/diary')
+        axios.get('https://dear-diary-backend.vercel.app/diary')
         .then((response) => {
             setPages(response.data.data);
             setLoading(false);
