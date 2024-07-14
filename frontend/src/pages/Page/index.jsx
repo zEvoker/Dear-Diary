@@ -27,7 +27,7 @@ const Page = () => {
     
     useEffect(() => {
         setLoading(true);
-        axios.get(`http://localhost:5555/diary/${id}`)
+        axios.get(`https://dear-diary-backend.vercel.app/diary/${id}`)
         .then((response) => {
             setPage(response.data);
             setText(response.data.content);
@@ -45,7 +45,7 @@ const Page = () => {
     const handleDel = async () => {
         setLoading(true);
         try {
-            await axios.delete(`http://localhost:5555/diary/${id}`);
+            await axios.delete(`https://dear-diary-backend.vercel.app/diary/${id}`);
             setLoading(false);
             navigate('/');
         } catch (error) {
@@ -59,7 +59,7 @@ const Page = () => {
         try {
             const feel = await handleMood();
             const updatedPage = {...page,title:head,content:text,date:day,mood:feel};
-            const response = await axios.put(`http://localhost:5555/diary/${id}`, updatedPage);
+            const response = await axios.put(`https://dear-diary-backend.vercel.app/diary/${id}`, updatedPage);
             setLoading(false);
             setEdit(false);
         } catch (error) {
@@ -71,7 +71,7 @@ const Page = () => {
     const handleShowChat = async () => {
         setLoading(true);
         try{
-            const response = await axios.post('http://localhost:5555/chat/', {
+            const response = await axios.post('https://dear-diary-backend.vercel.app/chat/', {
                 message: `Talk to me like a friend in short messages. I'm feeling sad, so please be understanding and supportive.; ${text}`,
                 history: []
             })
@@ -88,7 +88,7 @@ const Page = () => {
     const handleMood = async () => {
         setLoading(true);
         try{
-            const response = await axios.post('http://localhost:5555/chat/', {
+            const response = await axios.post('https://dear-diary-backend.vercel.app/chat/', {
                 message: `return how the user is feeling in one word among the 4 : neutral, happy, sad, neutralangry; ${text}`,
                 history: []
             })
