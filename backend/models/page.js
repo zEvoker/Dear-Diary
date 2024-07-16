@@ -6,6 +6,10 @@ const pageSchema = mongoose.Schema (
             type: String,
             required: false,
         },
+        author: {
+            type: String,
+            required: true,
+        },
         content: {
             type: String,
             required: false,

@@ -20,8 +20,11 @@ const buildQueryObject = (params) => {
         const regexValue = params.title.replace('*', '.*');
         queryObject.title = { $regex: regexValue, $options: 'i' };
     }
-    if (params.content) {
-        queryObject.content = { $regex: params.content, $options: 'i' };
+    // if (params.content) {
+    //     queryObject.content = { $regex: params.content, $options: 'i' };
+    // }
+    if (params.author) {
+        queryObject.author = { $regex: params.author, $options: 'i' };
     }
     if (params.mood) {
         queryObject.mood = params.mood;
@@ -47,6 +50,7 @@ router.post('/', async (request,response) => {
     try{
         const newPage = {
             title : request.body.title,
+            author : request.body.author,
             content : request.body.content,
             date: request.body.date,
             mood: request.body.mood,

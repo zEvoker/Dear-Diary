@@ -34,6 +34,34 @@
             }
         }
 
+        .user{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1em;
+
+            input{
+                border: none;
+                outline: none;
+                border-radius: 2em;
+                padding: 0.5em 1em;
+                font-family: serif;
+                margin-top: 0.1em;
+                background: transparent;
+                box-shadow: inset 2px 5px 10px rgba(0,0,0,0.3);
+                color: lightgray;
+                width: max-content;
+                max-width: 6.3em;
+                transition: 0.5s ease-in-out;
+
+                &:focus {
+                    background-color: lightgray;
+                    color: #060c21;
+                    transform: scale(1.05);
+                }
+            }
+        }
+
         .icons {
             color: lightgray;
             height: 0.9em;
@@ -185,6 +213,29 @@
         }
         100%{
             transform: scale(1.1);
+        }
+    }
+}
+
+@media screen and (max-width : 720px) {
+    .home{
+        .logo{
+            .logoicon{
+                .logoimg{
+                    display: none;
+                }
+            }
+        }
+        .section {
+            .searchsection{
+                .searchdate,.searchtitle{
+                    display: none;
+                }
+                .searchquery{
+                    width: 60%;
+                    max-width: 60%;
+                }
+            }
         }
     }
 }

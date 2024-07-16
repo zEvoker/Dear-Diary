@@ -2,9 +2,10 @@ import './index.scss'
 import axios from 'axios';
 import Card from '../../components/Card';
 import Loader from '../../components/Loader';
+import Login from '../Login';
 import { useCallback, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBookOpenReader, faPen, faSearch, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faBookOpenReader, faPen, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { startOfToday } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,11 +13,11 @@ const debounce = (func, delay) => {
     let timeout;
     return (...args) => {
         clearTimeout(timeout);
-        timeout = setTimeout(() => func.apply(this, args), delay);
+        timeout = setTimeout(() => func(...args), delay);
     };
 };
 
-const Home = () => {
+const Home = ({user,setUser}) => {
     const [pages, setPages] = useState([]);
     const [loading, setLoading] = useState(false);
     const [searchtxt, setSearchtxt] = useState('');
@@ -39,10 +40,13 @@ const Home = () => {
     }, []);
 
     const handleCreate = async () => {
+        if(user === "") {
+            return;
+        }
         setLoading(true);
         try {
             const today = startOfToday();
-            const newPage = {title:"", content:"", data:today, mood:0};
+            const newPage = {title:"", author:user, content:"", date:today, mood:0};
             const response = await axios.post(`https://dear-diary-backend.vercel.app/diary`, newPage);
             const id = response.data._id;
             nav(`diary/${id}`);
@@ -59,11 +63,11 @@ const Home = () => {
         const today = startOfToday();
         try{
             const response = await axios.post('https://dear-diary-backend.vercel.app/chat/', {
-                message: `The database has 4 fields title, content, date (today is ${today}) and mood (0 for neutral, 1 for happy, 2 for sad, 3 for angry). Return a mongo db query string of the form "title=value;content=value;dateStart=value;dateEnd=value;mood=value;" corresponding to the text given after the ';' at the end ; ${query}`,
+                message: `The database has 4 fields title, author, date (today is ${today}) and mood (0 for neutral, 1 for happy, 2 for sad, 3 for angry). Return a mongo db query string of the form "title=value;author=value;dateStart=value;dateEnd=value;mood=value;" corresponding to the text given after the ';' at the end ; ${query}`,
                 history: []
             })
             //(regex syntax where * means 0 or more of preceding element and ^ means start of string) 
-            console.log(response.data)
+            // console.log(response.data)
             const q = response.data;
             const resp = await axios.get('https://dear-diary-backend.vercel.app/diary/search', {
                 params: {
@@ -104,15 +108,17 @@ const Home = () => {
         <div className='home'>
             <div className="logo">
                 <div className="logoicon">
-                    <FontAwesomeIcon icon={faBookOpenReader}/>
+                    <FontAwesomeIcon icon={faBookOpenReader} className='logoimg'/>
                     <span>Dear Diary</span>
                 </div>
-                <FontAwesomeIcon icon={faUser} className='icons'/>
+                <div className="user">
+                    <Login user={user} setUser={setUser}/>
+                </div>
             </div>
             <div className="pages-1">
                 <div className="cards">
                     {pages.map((page,idx) => (
-                        <Card key={idx} title={page.title} id={page._id} mood={page.mood} day={page.date}/>
+                        <Card key={idx} title={page.title} id={page._id} author={page.author} mood={page.mood} day={page.date}/>
                     ))}
                 </div>
             </div>
@@ -137,7 +143,7 @@ const Home = () => {
                     :
                     <div className="cards">
                     {results.map((page,idx) => (
-                        <Card key={idx} title={page.title} id={page._id} mood={page.mood} day={page.date}/>
+                        <Card key={idx} title={page.title} id={page._id} mood={page.mood} day={page.date} author={page.author}/>
                     ))}
                     </div>}
                 </div>

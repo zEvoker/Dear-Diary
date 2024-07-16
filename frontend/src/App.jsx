@@ -2,13 +2,14 @@ import './App.css'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Page from './pages/Page';
-import React, { useContext } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Routes, Route } from "react-router-dom";
 // import { AuthContext } from './context/AuthContext';
 
 
 function App() {
   // const { currentUser } = useContext(AuthContext);
+  const [user, setUser] = useState("");
 
   const ProtectedRoute = ({ children }) => {
     // if (!currentUser) {
@@ -21,8 +22,8 @@ function App() {
     <>
       <Routes>
         <Route path="/" >
-          <Route index element={<ProtectedRoute><Home /></ProtectedRoute>} />
-          <Route path="diary/:id" element={<ProtectedRoute><Page /></ProtectedRoute>} />
+          <Route index element={<ProtectedRoute><Home user={user} setUser={setUser} /></ProtectedRoute>} />
+          <Route path="diary/:id" element={<ProtectedRoute><Page user={user}/></ProtectedRoute>} />
           <Route path="login" element={<Login />} />
         </Route>
       </Routes>

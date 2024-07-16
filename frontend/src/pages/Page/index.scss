@@ -235,3 +235,18 @@
         }
     }
 }
+
+@media screen and (max-width : 720px) {
+  .pageContainer {
+    .content {
+      &.chat-show{
+        .quill{
+          display: none;
+        }
+      }
+    }
+    .bgchange{
+      display: none;
+    }
+  }
+}

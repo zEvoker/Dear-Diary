@@ -5,11 +5,11 @@ import 'react-quill/dist/quill.snow.css';
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faCheck, faClose, faFaceAngry, faFaceFrown, faFaceMeh, faFaceSmileBeam, faPalette, faPenToSquare, faTrashAlt, faUserPlus, faUserXmark } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faClose, faFaceAngry, faFaceFrown, faFaceMeh, faFaceSmileBeam, faPalette, faPenToSquare, faTrashAlt, faUserPlus, faUserXmark } from '@fortawesome/free-solid-svg-icons';
 import { format } from 'date-fns';
 import Chat from '../../components/Chat';
 
-const Page = () => {
+const Page = ({user}) => {
     const [page, setPage] = useState({});
     const [text, setText] = useState("");
     const [head, setHead] = useState("");
@@ -130,8 +130,8 @@ const Page = () => {
     const formats = [ "header", "font", "size", "bold", "italic", "underline", "align", "strike", "script", "blockquote", "background", "list", "bullet", "indent", "link", "image", "color", "code-block"];
 
     return (
-        <div className='pageContainer' style={loading ? {display: "none"} : {backgroundColor: color}}>
-            <div className="header">
+        <div className='pageContainer' style={loading ? {backgroundColor: "black"} : {backgroundColor: color}}>
+            {user === page.author && <div className="header">
                 {edit?
                 <>
                     <FontAwesomeIcon onClick={handleSave} icon={faCheck} className='headericon'/>
@@ -142,13 +142,13 @@ const Page = () => {
                 }
                 <FontAwesomeIcon icon={showChat ? faUserXmark : faUserPlus} className='headericon' onClick={() => setShowChat( prev => !prev)}/>
                 <FontAwesomeIcon icon={faTrashAlt} className='headericon' onClick={handleDel} />
-            </div>
+            </div>}
             <div className="heading">
                 <input type="text" placeholder='Title' value={head} onChange={(e) => setHead(e.target.value)} disabled={!edit}/>
                 <div className="track">
                     <span onClick={() => {if(edit) dateInputRef.current.showPicker();}}>{format(day, "MMMM do',' yyyy")}</span>
                     <input type="date" ref={dateInputRef} value={day} onChange={e => setDay(e.target.value)} style={{ display: 'none' }} disabled={!edit} />
-                    <FontAwesomeIcon icon={moods[mood]} className='mood' onClick={handleMood}/>
+                    {user === page.author && <FontAwesomeIcon icon={moods[mood]} className='mood' onClick={handleMood}/>}
                 </div>
             </div>
             <div className={`content ${showChat && "chat-show"}`}>
