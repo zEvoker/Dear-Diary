@@ -27,17 +27,23 @@ const Home = ({user,setUser}) => {
     const nav = useNavigate();
 
     useEffect(() => {
-        setLoading(true);
-        axios.get('https://dear-diary-backend.vercel.app/diary')
-        .then((response) => {
-            setPages(response.data.data);
-            setLoading(false);
-        })
-        .catch((error) => {
-            console.log(error);
-            setLoading(false);
-        })
-    }, []);
+        const fetchMine = async () => {
+            setLoading(true);
+            try {
+                let par = {};
+                if(user) par.author=user;
+                const response = await axios.get('https://dear-diary-backend.vercel.app/diary', {
+                    params: par
+                });
+                setPages(response.data.data);
+                setLoading(false);
+            } catch (error) {
+                console.log(error);
+                setLoading(false);
+            }
+        }
+        fetchMine();
+    }, [user]);
 
     const handleCreate = async () => {
         if(user === "") {
@@ -63,7 +69,7 @@ const Home = ({user,setUser}) => {
         const today = startOfToday();
         try{
             const response = await axios.post('https://dear-diary-backend.vercel.app/chat/', {
-                message: `The database has 4 fields title, author, date (today is ${today}) and mood (0 for neutral, 1 for happy, 2 for sad, 3 for angry). Return a mongo db query string of the form "title=value;author=value;dateStart=value;dateEnd=value;mood=value;" corresponding to the text given after the ';' at the end ; ${query}`,
+                message: `The database has 4 fields title, author (I am ${user}), date (today is ${today}) and mood (0 for neutral, 1 for happy, 2 for sad, 3 for angry). Return a mongo db query string of the form "title=value;author=value;dateStart=value;dateEnd=value;mood=value;" corresponding to the text given after the ';' at the end ; ${query}`,
                 history: []
             })
             //(regex syntax where * means 0 or more of preceding element and ^ means start of string) 
@@ -118,7 +124,7 @@ const Home = ({user,setUser}) => {
             <div className="pages-1">
                 <div className="cards">
                     {pages.map((page,idx) => (
-                        <Card key={idx} title={page.title} id={page._id} author={page.author} mood={page.mood} day={page.date}/>
+                        <Card key={idx} title={page.title} id={page._id} mood={page.mood} day={page.date}/>
                     ))}
                 </div>
             </div>
@@ -143,7 +149,7 @@ const Home = ({user,setUser}) => {
                     :
                     <div className="cards">
                     {results.map((page,idx) => (
-                        <Card key={idx} title={page.title} id={page._id} mood={page.mood} day={page.date} author={page.author}/>
+                        <Card key={idx} title={page.title} id={page._id} mood={page.mood} day={page.date}/>
                     ))}
                     </div>}
                 </div>

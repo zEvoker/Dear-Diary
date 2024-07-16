@@ -24,7 +24,7 @@ function App() {
         <Route path="/" >
           <Route index element={<ProtectedRoute><Home user={user} setUser={setUser} /></ProtectedRoute>} />
           <Route path="diary/:id" element={<ProtectedRoute><Page user={user}/></ProtectedRoute>} />
-          <Route path="login" element={<Login />} />
+          {/* <Route path="login" element={<Login />} /> */}
         </Route>
       </Routes>
     </>

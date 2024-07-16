@@ -64,15 +64,19 @@ router.post('/', async (request,response) => {
 });
 router.get('/', async (request,response) => {
     try{
-        const {title,date} = request.query;
+        const {title,date,author} = request.query;
         let query = {};
         if(title) {
             query.title = { $regex: title, $options: 'i' };
         }
+        if(author) {
+            query.author = { $regex: author, $options: 'i' };
+        }
         if(date) {
             query.date = date;
         }
-        const pages = await Page.find(query);
+        const projection = { content: 0 };
+        const pages = await Page.find(query, projection);
         return response.status(200).json({
             count: pages.length,
             data: pages,
