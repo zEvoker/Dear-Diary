@@ -35,7 +35,8 @@ const Home = ({user,setUser}) => {
                 const response = await axios.get('https://dear-diary-backend.vercel.app/diary', {
                     params: par
                 });
-                setPages(response.data.data);
+                const sortedPages = response.data.data.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+                setPages(sortedPages);
                 setLoading(false);
             } catch (error) {
                 console.log(error);

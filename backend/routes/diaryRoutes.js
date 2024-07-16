@@ -70,7 +70,7 @@ router.get('/', async (request,response) => {
             query.title = { $regex: title, $options: 'i' };
         }
         if(author) {
-            query.author = { $regex: author, $options: 'i' };
+            query.author = author;
         }
         if(date) {
             query.date = date;
@@ -92,7 +92,8 @@ router.get('/search', async (request,response) => {
         const queryString = request.query.queryString;
         const params = parseQueryString(queryString);
         const queryObject = buildQueryObject(params);
-        const pages = await Page.find(queryObject);
+        const projection = { content: 0 };
+        const pages = await Page.find(queryObject, projection);
         return response.status(200).json({ count: pages.length, data: pages,});
     }catch(err) {
         console.error(err);
