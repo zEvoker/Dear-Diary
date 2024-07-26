@@ -20,6 +20,7 @@ const debounce = (func, delay) => {
 const Home = ({user,setUser}) => {
     const [pages, setPages] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [err, setErr] = useState(false);
     const [searchtxt, setSearchtxt] = useState('');
     const [query, setQuery] = useState('');
     const [searchdate, setSearchdate] = useState('');
@@ -48,8 +49,10 @@ const Home = ({user,setUser}) => {
 
     const handleCreate = async () => {
         if(user === "") {
+            setErr(true);
             return;
         }
+        setErr(false);
         setLoading(true);
         try {
             const today = startOfToday();
@@ -155,6 +158,7 @@ const Home = ({user,setUser}) => {
                     </div>}
                 </div>
             </div>
+            {err && <div className="info">enter a username to start writing</div> }
             <FontAwesomeIcon icon={faPen} className='write' onClick={handleCreate}/>
         </div>
     )

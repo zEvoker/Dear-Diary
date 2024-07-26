@@ -204,6 +204,18 @@
         animation: pulse 2s alternate infinite;
     }
 
+    .info{
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 1.5em 2em;
+        color: red;
+        font-size: 1.2em;
+    }
+
     @keyframes pulse {
         0%{
             transform: none;
@@ -237,6 +249,12 @@
                     max-width: 60%;
                 }
             }
+        }
+        .write{
+            bottom: 1.5em;
+        }
+        .info{
+            bottom: 1.5em;
         }
     }
 }
