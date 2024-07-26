@@ -70,7 +70,7 @@ const Home = ({user,setUser}) => {
         const today = startOfToday();
         try{
             const response = await axios.post('https://dear-diary-backend.vercel.app/chat/', {
-                message: `The database has 4 fields title, author (I am ${user}), date (today is ${today}) and mood (0 for neutral, 1 for happy, 2 for sad, 3 for angry). Return a mongo db query string of the form "title=value;author=value;dateStart=value;dateEnd=value;mood=value;" corresponding to the text given after the ';' at the end ; ${query}`,
+                message: `The database has 3 fields title, date (today is ${today}) and mood (0 for neutral, 1 for happy, 2 for sad, 3 for angry). Return a mongo db query string of the form "title=value;dateStart=value;dateEnd=value;mood=value;" corresponding to the text given after the ';' at the end ; ${query}`,
                 history: []
             })
             //(regex syntax where * means 0 or more of preceding element and ^ means start of string) 
