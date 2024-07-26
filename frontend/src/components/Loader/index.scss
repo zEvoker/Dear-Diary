@@ -13,32 +13,32 @@
         path:nth-child(6) {
             stroke-dasharray: 607;
             stroke-dashoffset: 607;
-            animation: draw 1s 1s ease forwards;
+            animation: draw 1s 0.7s ease forwards;
         }
         path:nth-child(5) {
             stroke-dasharray: 480;
             stroke-dashoffset: 480;
-            animation: draw 1s 2s ease forwards;
+            animation: draw 1s 1.7s ease forwards;
         }
         path:nth-child(4) {
             stroke-dasharray: 554;
             stroke-dashoffset: 554;
-            animation: draw 1s 3s ease forwards;
+            animation: draw 1s 2.7s ease forwards;
         }
         path:nth-child(3) {
             stroke-dasharray: 337;
             stroke-dashoffset: 337;
-            animation: draw 1s 4s ease forwards;
+            animation: draw 1s 3.7s ease forwards;
         }
         path:nth-child(2) {
             stroke-dasharray: 518;
             stroke-dashoffset: 518;
-            animation: draw 1s 5s ease forwards;
+            animation: draw 1s 4.7s ease forwards;
         }
         path:nth-child(1) {
             stroke-dasharray: 523;
             stroke-dashoffset: 523;
-            animation: draw 1s 6s ease forwards;
+            animation: draw 1s 5.7s ease forwards;
         }
     }
 }

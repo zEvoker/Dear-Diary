@@ -20,9 +20,6 @@ const buildQueryObject = (params) => {
         const regexValue = params.title.replace('*', '.*');
         queryObject.title = { $regex: regexValue, $options: 'i' };
     }
-    // if (params.author) {
-    //     queryObject.author = { $regex: params.author, $options: 'i' };
-    // }
     if (params.mood) {
         queryObject.mood = params.mood;
     }
@@ -70,11 +67,14 @@ router.get('/', async (request,response) => {
             query.author = author;
         }
         if(date) {
-            query.date = date;
+            const startDate = new Date(date);
+            startDate.setHours(0, 0, 0, 0);
+            const endDate = new Date(date);
+            endDate.setHours(23, 59, 59, 999);
+            query.date = { $gte: startDate, $lte: endDate };
         }
         const projection = { content: 0 };
         const pages = await Page.find(query, projection);
-        console.log(pages)
         return response.status(200).json({
             count: pages.length,
             data: pages,
