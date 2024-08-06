@@ -20,6 +20,7 @@ const Page = ({user}) => {
     const [edit, setEdit] = useState(false);
     const [showChat, setShowChat] = useState(false);
     const [firstMsg, setFirstMsg] = useState("");
+    const [confirmDel, setConfirmDel] = useState(false);
     const dateInputRef = useRef(null);
     const {id} =useParams();
     const moods = [faFaceMeh, faFaceSmileBeam, faFaceFrown, faFaceAngry]
@@ -133,15 +134,22 @@ const Page = ({user}) => {
         <div className='pageContainer' style={loading ? {backgroundColor: "black"} : {backgroundColor: color}}>
             {user === page.author && <div className="header">
                 {edit?
-                <>
+                <div className='confirmDel'>
                     <FontAwesomeIcon onClick={handleSave} icon={faCheck} className='headericon'/>
                     <FontAwesomeIcon onClick={() => {setEdit(false); setText(page.content);}} icon={faClose} className='headericon'/>
-                </>
+                </div>
                 :
                 <FontAwesomeIcon onClick={()=>setEdit(true)} icon={faPenToSquare} className='headericon'/>
                 }
                 <FontAwesomeIcon icon={showChat ? faUserXmark : faUserPlus} className='headericon' onClick={() => setShowChat( prev => !prev)}/>
-                <FontAwesomeIcon icon={faTrashAlt} className='headericon' onClick={handleDel} />
+                {confirmDel ?
+                <div className="confirmDel">
+                    <FontAwesomeIcon onClick={() => setConfirmDel(false)} icon={faClose} className='headericon'/>                
+                    <FontAwesomeIcon onClick={handleDel} icon={faCheck} className='headericon'/>
+                </div>
+                :
+                <FontAwesomeIcon icon={faTrashAlt} className='headericon' onClick={() => setConfirmDel(true)} />
+                }
             </div>}
             <div className="heading">
                 <input type="text" placeholder='Title' value={head} onChange={(e) => setHead(e.target.value)} disabled={!edit}/>
