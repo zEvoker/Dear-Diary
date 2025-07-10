@@ -40,7 +40,7 @@ const Chat = ({firstMsg}) => {
                     { role: "model", parts: [{ text: message[1] }] }
                 ])
             ];
-            const response = await axios.post('https://dear-diary-backend.vercel.app/chat/', {
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/chat/`, {
                 message: `Talk to me like a friend in a short message. I'm feeling sad, so please be understanding and supportive.; ${msg}`,
                 history: history
             })

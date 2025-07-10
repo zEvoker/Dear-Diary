@@ -33,7 +33,7 @@ const Home = ({user,setUser}) => {
             try {
                 let par = {};
                 if(user) par.author=user;
-                const response = await axios.get('https://dear-diary-backend.vercel.app/diary', {
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/diary`, {
                     params: par
                 });
                 const sortedPages = response.data.data.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
@@ -57,7 +57,7 @@ const Home = ({user,setUser}) => {
         try {
             const today = startOfToday();
             const newPage = {title:"", author:user, content:"", date:today, mood:0};
-            const response = await axios.post(`https://dear-diary-backend.vercel.app/diary`, newPage);
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/diary`, newPage);
             const id = response.data._id;
             nav(`diary/${id}`);
             setLoading(false);
@@ -72,14 +72,14 @@ const Home = ({user,setUser}) => {
         setLoading(true);
         const today = startOfToday();
         try{
-            const response = await axios.post('https://dear-diary-backend.vercel.app/chat/', {
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/chat/`, {
                 message: `The database has 3 fields title, date (today is ${today}) and mood (0 for neutral, 1 for happy, 2 for sad, 3 for angry). Return a mongo db query string of the form "title=value;dateStart=value;dateEnd=value;mood=value;" corresponding to the text given after the ';' at the end ; ${query}`,
                 history: []
             })
             //(regex syntax where * means 0 or more of preceding element and ^ means start of string) 
             // console.log(response.data)
             const q = response.data;
-            const resp = await axios.get('https://dear-diary-backend.vercel.app/diary/search', {
+            const resp = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/search`, {
                 params: {
                     queryString: q,
                 }
@@ -99,7 +99,7 @@ const Home = ({user,setUser}) => {
         }
         setLoading(true);
         try {
-            const response = await axios.get('https://dear-diary-backend.vercel.app/diary', {
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/diary`, {
                 params: {
                     title: stxt,
                     date: sdate,
