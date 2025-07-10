@@ -1,3 +1,5 @@
-export const PORT = 5555;
+import dotenv from "dotenv";
+dotenv.config({ path: '.env.local' });
 
-export const mongoDBURL = 'mongodb+srv://root:root@journal.tq3fh2s.mongodb.net/diary-collection?retryWrites=true&w=majority&appName=journal'
+export const PORT = 5555;
+export const mongoDBURL = process.env.MONGODB_URL;

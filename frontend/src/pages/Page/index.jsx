@@ -27,7 +27,7 @@ const Page = ({user}) => {
     
     useEffect(() => {
         setLoading(true);
-        axios.get(`https://dear-diary-backend.vercel.app/diary/${id}`)
+        axios.get(`${import.meta.env.VITE_BACKEND_URL}/diary/${id}`)
         .then((response) => {
             setPage(response.data);
             setText(response.data.content);
@@ -45,7 +45,7 @@ const Page = ({user}) => {
     const handleDel = async () => {
         setLoading(true);
         try {
-            await axios.delete(`https://dear-diary-backend.vercel.app/diary/${id}`);
+            await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/diary/${id}`);
             setLoading(false);
             navigate('/');
         } catch (error) {
@@ -59,7 +59,7 @@ const Page = ({user}) => {
         try {
             const feel = await handleMood();
             const updatedPage = {...page,title:head,content:text,date:day,mood:feel};
-            const response = await axios.put(`https://dear-diary-backend.vercel.app/diary/${id}`, updatedPage);
+            const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/diary/${id}`, updatedPage);
             setLoading(false);
             setEdit(false);
         } catch (error) {
@@ -71,7 +71,7 @@ const Page = ({user}) => {
     const handleShowChat = async () => {
         setLoading(true);
         try{
-            const response = await axios.post('https://dear-diary-backend.vercel.app/chat/', {
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/chat`, {
                 message: `Talk to me like a friend in short messages. I'm feeling sad, so please be understanding and supportive.; ${text}`,
                 history: []
             })
@@ -88,7 +88,7 @@ const Page = ({user}) => {
     const handleMood = async () => {
         setLoading(true);
         try{
-            const response = await axios.post('https://dear-diary-backend.vercel.app/chat/', {
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/chat`, {
                 message: `return how the user is feeling in one word among the 4 : neutral, happy, sad, neutralangry; ${text}`,
                 history: []
             })
